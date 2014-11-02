@@ -1,5 +1,3 @@
-PHPUnit 4.3.4 by Sebastian Bergmann.
-
 Configuration read from D:\xampp\htdocs\fatwallet\phpunit.xml
 
 ..
