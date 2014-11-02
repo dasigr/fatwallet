@@ -1,4 +1,4 @@
-BitCommerce
+Fat Wallet
 ===========
 
-Commerce Website for Bitcoin
+A personal wallet for financial management.

@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'proj1_staging';
-$db['default']['password'] = 'z6tQq7vZK4XcfMjJ';
-$db['default']['database'] = 'proj1_staging';
+$db['default']['username'] = 'proj1_testing';
+$db['default']['password'] = 'ewEYQUUzRFrWUyvv';
+$db['default']['database'] = 'proj1_testing';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

@@ -93,7 +93,7 @@ class SomeTest extends AbstractDatabaseTestCase {
         $photo = new Photo();
         $photo_id = 19;
         $sql = $photo->delete_sql($photo_id);
-        $queryTable = $this->getConnection()->createQueryTable('uploads', $sql);
+        $queryTable = $this->getConnection()->createQueryTable('uploads', $sql); // @todo: fails deleting a photo
         
         // Assert
         $this->assertEquals(2, $this->getConnection()->getRowCount('uploads'), "Inserting failed");

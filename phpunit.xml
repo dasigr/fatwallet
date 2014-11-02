@@ -11,10 +11,10 @@
          syntaxCheck="false"
 >
     <php>
-        <var name="DB_DSN" value="mysql:dbname=bitdb_test;host=localhost" />
-        <var name="DB_USER" value="root" />
-        <var name="DB_PASSWD" value="" />
-        <var name="DB_DBNAME" value="bitdb_test" />
+        <var name="DB_DSN" value="mysql:dbname=proj1_testing;host=localhost" />
+        <var name="DB_USER" value="proj1_testing" />
+        <var name="DB_PASSWD" value="ewEYQUUzRFrWUyvv" />
+        <var name="DB_DBNAME" value="proj1_testing" />
     </php>
     <testsuites>
         <testsuite name="Application Test Suite">
