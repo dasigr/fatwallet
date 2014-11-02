@@ -50,7 +50,12 @@ class ExpenseControllerTest extends PHPUnit_Framework_TestCase
             )
         );
         $expectedJson = json_encode($expected);
-    
+        
+        // Set headers
+        $headers = array(
+            'Authorization: Token 46464464514646531'
+        );
+        
         // Set parameters
         $params = array(
             'offset' => 0,
@@ -59,16 +64,34 @@ class ExpenseControllerTest extends PHPUnit_Framework_TestCase
     
         // Create Request data
         $data = array(
-            'url' => '/api/v1/expenses',
+            'url' => 'http://api.fatwallet.local/index.php/expenses',
             'method' => 'GET',
+            'headers' => $headers,
             'params' => $params
         );
-    
-        // Make an API call
-        // $result = $this->curl->request($data);
+        
+        // Initialize cURL
+        $ch = curl_init();
+        
+        // Set options
+        $options = array();
+        $options[CURLOPT_HTTPGET] = 1;
+        $options[CURLOPT_HTTPHEADER] = $data['headers'];
+        $options[CURLOPT_URL] = $data['url'];
+        $options[CURLOPT_RETURNTRANSFER] = true;
+        
+        curl_setopt_array($ch, $options);
+        
+        // Execute cURL
+        $actualJson = curl_exec($ch);
+        
+        // Close cURL
+        curl_close($ch);
+        
+        $result = json_decode($actualJson);
+        print_r($result);
     
         // Assert that we get the expected result
-        // $this->assertJsonStringEqualsJsonString($expectedJson, $actualJson);
-        $this->assertTrue(false);
+        $this->assertJsonStringEqualsJsonString($expectedJson, $actualJson);
     }
 }
