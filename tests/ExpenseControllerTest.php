@@ -1,10 +1,34 @@
 <?php
 
-class Expense_Model extends CI_Model
+class ExpenseControllerTest extends PHPUnit_Framework_TestCase
 {
-    public function getAll()
+    private $CI;
+    
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     *
+     */
+    protected function setUp()
     {
-        $response = array(
+        parent::setUp();
+    
+        $this->CI = &get_instance();
+    }
+    
+    /**
+     * Tears down the fixture, for example, close a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
+    
+    public function test_index_returns_response()
+    {
+        // Prepare expected result
+        $expected = array(
             'total' => 5,
             'data' => array(
                 array(
@@ -25,7 +49,26 @@ class Expense_Model extends CI_Model
                 )
             )
         );
-        
-        return json_encode($response);
+        $expectedJson = json_encode($expected);
+    
+        // Set parameters
+        $params = array(
+            'offset' => 0,
+            'limit' => 2
+        );
+    
+        // Create Request data
+        $data = array(
+            'url' => '/api/v1/expenses',
+            'method' => 'GET',
+            'params' => $params
+        );
+    
+        // Make an API call
+        // $result = $this->curl->request($data);
+    
+        // Assert that we get the expected result
+        // $this->assertJsonStringEqualsJsonString($expectedJson, $actualJson);
+        $this->assertTrue(false);
     }
 }
