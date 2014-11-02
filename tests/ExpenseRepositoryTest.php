@@ -1,5 +1,35 @@
 <?php
 
+class Expense_Controller
+{
+    public function index()
+    {
+        $response = array(
+            'total' => 5,
+            'data' => array(
+                array(
+                    'id' => '5',
+                    'title' => 'Test Expense 5',
+                    'amount' => '1505',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    'date_created' => '2014-10-31 11:55:07',
+                    'date_updated' => NULL
+                ),
+                array(
+                    'id' => '4',
+                    'title' => 'Test Expense 4',
+                    'amount' => '1404',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    'date_created' => '2014-10-31 11:54:49',
+                    'date_updated' => NULL
+                )
+            )
+        );
+        
+        return json_encode($response);
+    }
+}
+
 class Expense
 {
     /**
@@ -56,6 +86,9 @@ class ExpenseRepositoryTest extends AbstractDatabaseTestCase
      */
     public function test_read_list_sql()
     {
+        // Prepare expected result
+        $expected = $this->createMySQLXMLDataSet(dirname(__FILE__).'/seeds/expense_expected.xml')->getTable("expense");
+        
         // Get Expense intance
         $expense = new Expense();
         
@@ -71,10 +104,58 @@ class ExpenseRepositoryTest extends AbstractDatabaseTestCase
         // Execute query
         $actual = $this->getConnection()->createQueryTable('expense', $sql);
         
-        // Get expected result
-        $expected = $this->createMySQLXMLDataSet(dirname(__FILE__).'/seeds/expense_expected.xml')->getTable("expense");
-        
         // Assert that actual result is equal to expected result
         $this->assertTablesEqual($expected, $actual);
+    }
+    
+    
+    public function test_index_returns_response()
+    {
+        // Prepare expected result
+        $expected = array(
+            'total' => 5,
+            'data' => array(
+                array(
+                    'id' => '5',
+                    'title' => 'Test Expense 5',
+                    'amount' => '1505',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    'date_created' => '2014-10-31 11:55:07',
+                    'date_updated' => NULL
+                ),
+                array(
+                    'id' => '4',
+                    'title' => 'Test Expense 4',
+                    'amount' => '1404',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    'date_created' => '2014-10-31 11:54:49',
+                    'date_updated' => NULL
+                )
+            )
+        );
+        $expectedJson = json_encode($expected);
+        
+        // Get Expense_Controller instance.
+        $expense_controller = new Expense_Controller();
+        
+        // Set parameters
+        $params = array(
+            'offset' => 0,
+            'limit' => 2
+        );
+        
+        // Create Request data
+        $data = array(
+            'url' => '/api/v1/expenses',
+            'method' => 'GET',
+            'params' => $params
+        );
+        
+        // Make an API call
+        // $result = $this->curl->request($data);
+        $actualJson = $expense_controller->index($data);
+        
+        // Assert that we get the expected result
+        $this->assertJsonStringEqualsJsonString($expectedJson, $actualJson, 'Failed asserting that $actualJson is equal to $expectedJson');
     }
 }
