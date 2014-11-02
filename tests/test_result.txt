@@ -1,0 +1,9 @@
+PHPUnit 4.3.4 by Sebastian Bergmann.
+
+Configuration read from D:\xampp\htdocs\fatwallet\phpunit.xml
+
+.
+
+Time: 190 ms, Memory: 2.50Mb
+
+OK (1 test, 1 assertion)

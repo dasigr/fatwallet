@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="proj1_testing">
+	<table_data name="expense">
+	<row>
+		<field name="id">1</field>
+		<field name="title">Test Expense 1</field>
+		<field name="amount">1101</field>
+		<field name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</field>
+		<field name="date_created">2014-10-31 11:53:46</field>
+		<field name="date_updated" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="title">Test Expense 2</field>
+		<field name="amount">1202</field>
+		<field name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</field>
+		<field name="date_created">2014-10-31 11:53:47</field>
+		<field name="date_updated" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="title">Test Expense 3</field>
+		<field name="amount">1303</field>
+		<field name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</field>
+		<field name="date_created">2014-10-31 11:54:48</field>
+		<field name="date_updated" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="title">Test Expense 4</field>
+		<field name="amount">1404</field>
+		<field name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</field>
+		<field name="date_created">2014-10-31 11:54:49</field>
+		<field name="date_updated" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="title">Test Expense 5</field>
+		<field name="amount">1505</field>
+		<field name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</field>
+		<field name="date_created">2014-10-31 11:55:07</field>
+		<field name="date_updated" xsi:nil="true" />
+	</row>
+	</table_data>
+</database>
+</mysqldump>

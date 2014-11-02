@@ -24,17 +24,4 @@ abstract class AbstractDatabaseTestCase extends PHPUnit_Extensions_Database_Test
         
         return $this->conn;
     }
-    
-    /**
-     * Returns the test dataset.
-     *
-     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
-     */
-    final public function getDataSet()
-    {
-        $ds = $this->createFlatXmlDataSet(dirname(__FILE__).'/seeds/photos.xml');
-        $rds = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($ds);
-        $rds->addFullReplacement('##NULL##', null);
-        return $rds;
-    }
 }
