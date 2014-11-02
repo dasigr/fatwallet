@@ -38,7 +38,7 @@ class CI_Utf8 {
 	{
 		log_message('debug', "Utf8 Class Initialized");
 
-		global $CFG;
+		$CFG =& load_class('Config', 'core'); // global $CFG;
 
 		if (
 			preg_match('/./u', 'é') === 1					// PCRE must support UTF-8
