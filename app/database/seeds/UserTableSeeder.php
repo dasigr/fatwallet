@@ -10,7 +10,7 @@ class UserTableSeeder extends Seeder {
 			array(
                 'username' => 'admin',
                 'password' => Hash::make('*a5pro123'),
-                'email'	=> 'admin@laravelcommerce.com',
+                'email'	=> 'administrator_test@a5project.com',
                 'created_at' => $now,
                 'updated_at' => $now
             ),
