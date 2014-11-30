@@ -11,6 +11,16 @@
 |
 */
 
+Route::group(
+    array(
+        'before' => 'auth.basic',
+        'prefix' => 'v1'
+    ), function()
+    {
+        Route::resource('users', 'UserController');
+    }
+);
+
 Route::get('/', function()
 {
 	return View::make('hello');
