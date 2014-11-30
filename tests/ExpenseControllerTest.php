@@ -14,6 +14,7 @@ class ExpenseControllerTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     
         $this->CI = &get_instance();
+        $this->CI->load->database('testing');
     }
     
     /**
@@ -89,7 +90,7 @@ class ExpenseControllerTest extends PHPUnit_Framework_TestCase
         curl_close($ch);
         
         $result = json_decode($actualJson);
-        print_r($result);
+        print_r($actualJson);
     
         // Assert that we get the expected result
         $this->assertJsonStringEqualsJsonString($expectedJson, $actualJson);
