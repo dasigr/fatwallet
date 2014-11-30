@@ -11,9 +11,13 @@ class UserControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Migrate and seed the test database.
+        Route::enableFilters();
+
         Artisan::call('migrate');
         $this->seed();
+
+        // Login as admin
+        Auth::loginUsingId(1);
     }
 
     /**
@@ -24,6 +28,20 @@ class UserControllerTest extends TestCase
     public function tearDown()
     {
         parent::tearDown();
+    }
+
+    /**
+     * Test that user is authenticated.
+     *
+     * @return void
+     */
+    public function testMustBeAuthenticated()
+    {
+        Auth::logout();
+
+        $response = $this->call('GET', 'v1/users');
+
+        $this->assertEquals('Invalid credentials.', $response->getContent());
     }
 
     /**
@@ -40,21 +58,27 @@ class UserControllerTest extends TestCase
     }
 
     /**
-     * Test fetching all expenses.
+     * Test that we get a valid json response.
      *
      * @return void
      */
-    public function testFetchesAllUsers()
+    public function testReturnsValidJson()
     {
         $response = $this->call('GET', 'v1/users');
-        $content = $response->getContent();
-        $data = json_decode($content);
-        print_r($data);
 
-        // Did we receive valid JSON?
-        $this->assertJson($content);
+        $this->assertJson($response->getContent());
+    }
 
-        // Decoded JSON should offer an expense array
-        $this->assertInternalType('array', $data->expenses);
+    /**
+     * Test fetching all users.
+     *
+     * @return void
+     */
+    public function testFetchesUsers()
+    {
+        $response = $this->call('GET', 'v1/users');
+        $data = json_decode($response->getContent());
+
+        $this->assertInternalType('array', $data->users);
     }
 }

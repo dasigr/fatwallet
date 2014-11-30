@@ -11,7 +11,7 @@ class UserController extends BaseController
     {
         $data = array(
             'error' => false,
-            'expenses' => User::all()->toArray()
+            'users' => User::all()->toArray()
         );
 
         return Response::json($data, 200);
