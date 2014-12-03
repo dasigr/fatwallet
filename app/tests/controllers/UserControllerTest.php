@@ -272,6 +272,16 @@ class UserControllerTest extends TestCase
         $this->assertEquals($users, $actual_users);
     }
 
+    public function testFetchesUser()
+    {
+        $response = $this->call('GET', 'v1/users/2');
+        $data = json_decode($response->getContent());
+
+        $this->assertInstanceOf('stdClass', $data->user);
+        $this->assertEquals('engineering_test1', $data->user->username);
+        $this->assertEquals('engineering_test1@a5project.com', $data->user->email);
+    }
+
     /**
      * Test updating existing User
      *

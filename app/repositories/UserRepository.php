@@ -44,13 +44,12 @@ class UserRepository implements UserRepositoryInterface {
 	 */
     public function find($id)
     {
-        $model = User::find($id);
+        $user = User::find($id);
 
-        if ($model) {
-            return $model;
-        }
-
-        return 'User not found.';
+        return array(
+            'error' => false,
+            'user' => $user->toArray()
+        );
     }
 
     /**
