@@ -272,6 +272,24 @@ class UserControllerTest extends TestCase
         $this->assertEquals($users, $actual_users);
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testFetchesUserWithInvalidUserId()
+    {
+        $response = $this->call('GET', 'v1/users/foo');
+        $data = json_decode($response->getContent());
+    }
+
+    public function testFetchesNonExistingUser()
+    {
+        $response = $this->call('GET', 'v1/users/999999');
+        $data = json_decode($response->getContent());
+
+        $this->assertTrue($data->error);
+        $this->assertEquals('User not found.', $data->message);
+    }
+
     public function testFetchesUser()
     {
         $response = $this->call('GET', 'v1/users/2');

@@ -44,7 +44,18 @@ class UserRepository implements UserRepositoryInterface {
 	 */
     public function find($id)
     {
+        if ( ! is_numeric($id)) {
+            throw new InvalidArgumentException;
+        }
+
         $user = User::find($id);
+
+        if ( ! ($user instanceof User)) {
+            return array(
+                'error' => true,
+                'message' => 'User not found.'
+            );
+        }
 
         return array(
             'error' => false,
