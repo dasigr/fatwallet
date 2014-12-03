@@ -20,4 +20,15 @@ class UserController extends BaseController
     {
         return Response::json($this->user->all(), 200);
     }
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		return Response::json($this->user->update($id, Input::all()), 200);
+	}
 }

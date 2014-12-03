@@ -84,14 +84,24 @@ class UserRepository implements UserRepositoryInterface {
     public function update($id, $data)
     {
         $this->validate($data, $id);
+
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
 
-        // Find user
         $user = $this->find($id);
 
-        return $user->update($data);
+        if ( ! $user->update($data)) {
+            return array(
+                'error' => true,
+                'message' => 'User was not updated.'
+            );
+        }
+
+        return array(
+            'error' => false,
+            'message' => 'User has been updated.'
+        );
     }
 
     /**

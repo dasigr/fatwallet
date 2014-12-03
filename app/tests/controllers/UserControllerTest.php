@@ -271,4 +271,29 @@ class UserControllerTest extends TestCase
 
         $this->assertEquals($users, $actual_users);
     }
+
+    /**
+     * Test updating existing User
+     *
+     * @return void
+     */
+    public function testUpdatesExistingUser()
+    {
+        $user = new User;
+        $user->username = 'test_user';
+        $user->email = 'test_user@a5project.com';
+        $user->password = 'abcde';
+        $user->save();
+
+        $updatedUserFields = array(
+            'username' => 'test_user',
+            'email' => 'updated_email@a5project.com'
+        );
+
+        $response = $this->call('PATCH', 'v1/users/11', $updatedUserFields);
+        $data = json_decode($response->getContent());
+
+        $this->assertEquals('User has been updated.', $data->message);
+        $this->assertEquals('updated_email@a5project.com', User::find(11)->email);
+    }
 }
