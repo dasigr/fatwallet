@@ -99,7 +99,7 @@ class UserRepository implements UserRepositoryInterface {
             $data['password'] = Hash::make($data['password']);
         }
 
-        $user = $this->find($id);
+        $user = User::find($id);
 
         if ( ! $user->update($data)) {
             return array(
