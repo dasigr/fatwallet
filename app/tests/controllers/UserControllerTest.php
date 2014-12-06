@@ -394,11 +394,11 @@ class UserControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreatesUser()
+    public function testCreateUser()
     {
         $userFields = array(
-            'username' => 'engineering.Test_10',
-            'email' => 'engineering_test10@a5project.com',
+            'username' => 'engineering.Test_' . time() . '_' . rand(0, 10),
+            'email' => 'engineering_test_' . time() . '_' . rand(0, 10) . '@a5project.com',
             'password' => '*a5pro123',
             'password_confirmation' => '*a5pro123'
         );
@@ -415,23 +415,52 @@ class UserControllerTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatesExistingUser()
+    public function testUpdateUser()
     {
         $user = new User;
-        $user->username = 'test_user';
-        $user->email = 'test_user@a5project.com';
-        $user->password = 'abcde';
+        $user->username = 'engineering_test_' . time() . '_' . rand(1000, 9999);
+        $user->email = 'engineering_test_' . time() . '_' . rand(1000, 9999) . '@a5project.com';
+        $user->password = '*test123';
         $user->save();
 
-        $updatedUserFields = array(
-            'username' => 'test_user',
-            'email' => 'updated_email@a5project.com'
+        // Prepare field updates
+        $updated_user_fields = array(
+            'username' => 'engineering_test_' . time() . '_' . rand(1000, 9999),
+            'email' => 'engineering_test_' . time() . '_' . rand(1000, 9999) . '_updated@a5project.com'
         );
 
-        $response = $this->call('PATCH', 'v1/users/11', $updatedUserFields);
+        $response = $this->call('PATCH', 'v1/users/' . $user->id , $updated_user_fields);
         $data = json_decode($response->getContent());
 
+        $this->assertFalse($data->error);
         $this->assertEquals('User has been updated.', $data->message);
-        $this->assertEquals('updated_email@a5project.com', User::find(11)->email);
+    }
+
+    /**
+     * Test updating user password.
+     *
+     * @return void
+     */
+    public function testUpdateUserPassword()
+    {
+        $user = new User;
+        $user->username = 'engineering_test_' . time() . '_' . rand(1000, 9999);
+        $user->email = 'engineering_test_' . time() . '_' . rand(1000, 9999) . '@a5project.com';
+        $user->password = '*test123';
+        $user->save();
+
+        // Prepare field updates
+        $updated_user_fields = array(
+            'username' => 'engineering_test_' . time() . '_' . rand(1000, 9999),
+            'email' => 'engineering_test_' . time() . '_' . rand(1000, 9999) . '_updated@a5project.com',
+            'password' => '*test123',
+            'password_confirmation' => '*test123'
+        );
+
+        $response = $this->call('PATCH', 'v1/users/' . $user->id , $updated_user_fields);
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('User has been updated.', $data->message);
     }
 }

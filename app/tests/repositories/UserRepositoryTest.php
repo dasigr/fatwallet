@@ -29,7 +29,7 @@ class UserRepositoryTest extends TestCase {
     }
 
     /**
-     * Test create methods saves.
+     * Test create method saves.
      *
      * @return void
      */
@@ -48,5 +48,32 @@ class UserRepositoryTest extends TestCase {
         $this->assertInstanceOf('User', $user);
         $this->assertEquals($test_user['username'], $user->username);
         $this->assertEquals($test_user['email'], $user->email);
+    }
+
+    /**
+     * Test update method saves.
+     *
+     * @return void
+     */
+    public function testUpdateUser()
+    {
+        // Create a user
+        $user = new User;
+        $user->username = 'engineering_test_' . time() . '_' . rand(1000, 9999);
+        $user->email = 'engineering_test_' . time() . '_' . rand(1000, 9999) . '@a5project.com';
+        $user->password = '*test123';
+        $user->save();
+
+        $updated_user_fields = array(
+            'username' => 'engineering_test_' . time() . rand(1000, 9999),
+            'email' => 'engineering_test_' . time() . rand(1000, 9999) . '_updated@a5project.com'
+        );
+
+        $this->user->update($user->id, $updated_user_fields);
+        $updated_user = User::find($user->id);
+
+        $this->assertInstanceOf('User', $updated_user);
+        $this->assertEquals($updated_user_fields['username'], $updated_user->username);
+        $this->assertEquals($updated_user_fields['email'], $updated_user->email);
     }
 }

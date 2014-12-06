@@ -69,7 +69,7 @@ class UserRepository implements UserRepositoryInterface {
 	 * Save a new model and return the instance.
 	 *
 	 * @param  array  $attributes
-	 * @return Model
+	 * @return array
 	 */
     public function create($attributes)
     {
@@ -103,8 +103,9 @@ class UserRepository implements UserRepositoryInterface {
     /**
 	 * Update the model in the database.
 	 *
-	 * @param  array  $attributes
-	 * @return bool|int
+	 * @param int $id User ID
+	 * @param  array  $data
+	 * @return array
 	 */
     public function update($id, $data)
     {
@@ -112,6 +113,7 @@ class UserRepository implements UserRepositoryInterface {
 
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
+            unset($data['password_confirmation']);
         }
 
         $user = User::find($id);
