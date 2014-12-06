@@ -1,5 +1,7 @@
 <?php
 
+use \ValidationException;
+
 class UserRepository implements UserRepositoryInterface {
 
     /**
@@ -74,15 +76,28 @@ class UserRepository implements UserRepositoryInterface {
         // Validate input data
         $this->validate($attributes);
 
+        // Save only lowercase usernames
+        $attributes['username'] = strtolower($attributes['username']);
+
         // Encrypt password
         $attributes['password'] = Hash::make($attributes['password']);
+        unset($attributes['password_confirmation']);
 
         // Create user
         $user = new User();
-        $model = $user->create($attributes);
+        $user_model = $user->create($attributes);
 
-        // Return User Model
-        return $model;
+        if ( ! $user_model instanceof User) {
+            return array(
+                'error' => true,
+                'message' => 'User was not created.'
+            );
+        }
+
+        return array(
+            'error' => false,
+            'message' => 'User has been created.'
+        );
     }
 
     /**
@@ -131,23 +146,63 @@ class UserRepository implements UserRepositoryInterface {
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @throws ValidationException
+	 * @return bool
 	 */
     public function validate($data, $id = null)
     {
-        // Validate username's first letter is an alphabet character
-        $username_array = str_split($data['username']);
-        $data['username_first_char'] = $username_array[0];
+        // Custom validation messages
+        $messages = array(
+            'username.regex' => 'The :attribute field should start with a character. Space i not allowed. Punctuations are not allowed, except for hyphens, dots and underscrores.',
+        );
 
-        $rules = User::$rules;
+        // Create user validation rules
+        $rules = array(
+            'username' => array(
+                'required',
+                'regex:/^[a-zA-Z][a-zA-Z_\.0-9]*/',
+                'min:3',
+                'max:32',
+                'unique:users,username'
+            ),
+            'email' => array(
+                'required',
+                'email',
+                'unique:users,email'
+    	    ),
+    	    'password' => array(
+    	        'required',
+    	        'min:8',
+    	        'confirmed'
+            )
+    	);
 
+        // Update user validation rules
         if ($id) {
-            $rules['username'] = 'required|unique:users,username,'.$id;
-            $rules['email'] = 'required|email|unique:users,email,'.$id;
-            $rules['password'] = 'sometimes|required';
+            $rules = array(
+                'username' => array(
+                    'required',
+                    'regex:/^[a-zA-Z][a-zA-Z_\.0-9]*/',
+                    'min:3',
+                    'max:32',
+                    'unique:users,username,' . $id
+                ),
+                'email' => array(
+                    'required',
+                    'email',
+                    'unique:users,email,' . $id
+        	    ),
+        	    'password' => array(
+        	        'sometimes',
+        	        'required',
+        	        'min:8',
+        	        'confirmed'
+                )
+        	);
         }
 
-        $validator = Validator::make($data, $rules);
+        // Do validation
+        $validator = Validator::make($data, $rules, $messages);
 
         if ($validator->fails()) {
             throw new ValidationException($validator, 401);

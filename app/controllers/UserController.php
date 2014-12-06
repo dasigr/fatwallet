@@ -33,6 +33,16 @@ class UserController extends BaseController
 	}
 
 	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		return Response::json($this->user->create( Input::all() ), 200);
+	}
+
+	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id

@@ -301,6 +301,116 @@ class UserControllerTest extends TestCase
     }
 
     /**
+     * Test creating a user with empty fields.
+     *
+     * @expectedException ValidationException
+     */
+    public function testCreatesUserWithEmptyFields()
+    {
+        $userFields = array(
+            'username' => '',
+            'email' => '',
+            'password' => '',
+            'password_confirmation' => ''
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+    }
+
+    /**
+     * Test that creating a user with existing username is not allowed.
+     *
+     * @expectedException ValidationException
+     * @return void
+     */
+    public function testCreatesUserWithDuplicateUsername()
+    {
+        $userFields = array(
+            'username' => 'engineering_test1',
+            'email' => 'engineering_test10@a5project.com',
+            'password' => '*a5pro123',
+            'password_confirmation' => '*a5pro123'
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+    }
+
+    /**
+     * Test creating a user with invalid username.
+     *
+     * @expectedException ValidationException
+     * @return void
+     */
+    public function testCreatesUserWithInvalidUsername()
+    {
+        $userFields = array(
+            'username' => '1engineering_test',
+            'email' => 'engineering_test10@a5project.com',
+            'password' => '*a5pro123',
+            'password_confirmation' => '*a5pro123'
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+    }
+
+    /**
+     * Test that creating a user with existing email is not allowed.
+     *
+     * @expectedException ValidationException
+     * @return void
+     */
+    public function testCreatesUserWithDuplicateEmail()
+    {
+        $userFields = array(
+            'username' => 'engineering_test10',
+            'email' => 'engineering_test1@a5project.com',
+            'password' => '*a5pro123',
+            'password_confirmation' => '*a5pro123'
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+    }
+
+    /**
+     * Test creating a user with empty password_confirmation field.
+     *
+     * @expectedException ValidationException
+     * @return void
+     */
+    public function testCreatesUserWithEmptyConfirmPasswordField()
+    {
+        $userFields = array(
+            'username' => 'engineering_test10',
+            'email' => 'engineering_test10@a5project.com',
+            'password' => '*a5pro123',
+            'password_confirmation' => ''
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+    }
+
+    /**
+     * Test creating a user with valid fields.
+     *
+     * @return void
+     */
+    public function testCreatesUser()
+    {
+        $userFields = array(
+            'username' => 'engineering.Test_10',
+            'email' => 'engineering_test10@a5project.com',
+            'password' => '*a5pro123',
+            'password_confirmation' => '*a5pro123'
+        );
+
+        $response = $this->call('POST', 'v1/users', $userFields);
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('User has been created.', $data->message);
+    }
+
+    /**
      * Test updating existing User
      *
      * @return void
