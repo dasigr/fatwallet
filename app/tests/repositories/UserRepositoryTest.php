@@ -76,4 +76,36 @@ class UserRepositoryTest extends TestCase {
         $this->assertEquals($updated_user_fields['username'], $updated_user->username);
         $this->assertEquals($updated_user_fields['email'], $updated_user->email);
     }
+
+    /**
+     * Test deleting a non-existing user.
+     *
+     * @expectedException InvalidArgumentException
+     * @return void
+     */
+    public function testDeleteUserWithInvalidId()
+    {
+        $this->user->delete('foo');
+
+        $this->assertFalse(User::find($user->id));
+    }
+
+    /**
+     * Test delete method works.
+     *
+     * @return void
+     */
+    public function testDeleteUser()
+    {
+        // Create a user
+        $user = new User;
+        $user->username = 'engineering_test_' . time() . '_' . rand(1000, 9999);
+        $user->email = 'engineering_test_' . time() . '_' . rand(1000, 9999) . '@a5project.com';
+        $user->password = '*test123';
+        $user->save();
+
+        $this->user->delete($user->id);
+
+        $this->assertNull(User::find($user->id));
+    }
 }

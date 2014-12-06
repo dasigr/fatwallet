@@ -52,4 +52,15 @@ class UserController extends BaseController
 	{
 		return Response::json($this->user->update($id, Input::all()), 200);
 	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		return Response::json($this->user->delete($id), 200);
+	}
 }

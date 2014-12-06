@@ -463,4 +463,38 @@ class UserControllerTest extends TestCase
         $this->assertFalse($data->error);
         $this->assertEquals('User has been updated.', $data->message);
     }
+
+    /**
+     * Test API call for deleting a non-existing user.
+     *
+     * @return void
+     */
+    public function testDeleteNonExistingUser()
+    {
+        $response = $this->call('DELETE', 'v1/users/999999999999999');
+        $data = json_decode($response->getContent());
+
+        $this->assertTrue($data->error);
+        $this->assertEquals('User does not exist.', $data->message);
+    }
+
+    /**
+     * Test API call for deleting a user.
+     *
+     * @return void
+     */
+    public function testDeleteUser()
+    {
+        $user = new User;
+        $user->username = 'engineering_test_' . time() . '_' . rand(1000, 9999);
+        $user->email = 'engineering_test_' . time() . '_' . rand(1000, 9999) . '@a5project.com';
+        $user->password = '*test123';
+        $user->save();
+
+        $response = $this->call('DELETE', 'v1/users/' . $user->id);
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('User has been deleted.', $data->message);
+    }
 }

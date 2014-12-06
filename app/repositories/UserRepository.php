@@ -134,14 +134,29 @@ class UserRepository implements UserRepositoryInterface {
     /**
 	 * Delete the model from the database.
 	 *
-	 * @return bool|null
-	 * @throws \Exception
+	 * @throws InvalidArgumentException
+	 * @return array
 	 */
     public function delete($id)
     {
-        $user = $this->find($id);
+        if (! is_numeric($id)) {
+            throw new InvalidArgumentException;
+        }
 
-        return $user->delete();
+        $user = User::find($id);
+        if ( ! $user instanceof User) {
+            return array(
+                'error' => true,
+                'message' => 'User does not exist.'
+            );
+        }
+
+        $user->delete();
+
+        return array(
+            'error' => false,
+            'message' => 'User has been deleted.'
+        );
     }
 
     /**
