@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('VocabularyTableSeeder');
 		$this->command->info('Vocabulary table seeded!');
+
+		$this->call('MerchantTableSeeder');
+		$this->command->info('Merchant table seeded!');
 	}
 
 }
