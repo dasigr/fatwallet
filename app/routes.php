@@ -20,6 +20,7 @@ Route::group(
         Route::resource('users', 'UserController');
         Route::resource('categories', 'CategoryController');
         Route::resource('merchants', 'MerchantController');
+        Route::resource('expenses', 'ExpenseController');
     }
 );
 
