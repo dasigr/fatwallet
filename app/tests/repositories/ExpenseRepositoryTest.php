@@ -206,4 +206,41 @@ class ExpenseRepositoryTest extends TestCase {
 
         $this->assertDescendingOrder($param);
     }
+
+    /**
+     * Test retrieving an expense with invalid id parameter.
+     *
+     * @expectedException InvalidArgumentException
+     * @return void
+     */
+    public function testFindExpenseWithInvalidId()
+    {
+        $this->expense->find('foo');
+    }
+
+    /**
+     * Test retrieving a non-existing expense.
+     *
+     * @return void
+     */
+    public function testFindNonExistingExpense()
+    {
+        $result = $this->expense->find(999999999);
+
+        $this->assertEquals('Expense does not exist.', $result['message']);
+    }
+
+    /**
+     * Test retriving an expense.
+     *
+     * @return void
+     */
+    public function testFindExpense()
+    {
+        $expense = Expense::with('category', 'merchant')->where('id', '=', 2)->first()->toArray();
+
+        $result = $this->expense->find(2);
+
+        $this->assertEquals($expense, $result['expense']);
+    }
 }

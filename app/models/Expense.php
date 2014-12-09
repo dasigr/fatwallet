@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
 class Expense extends Eloquent {
 
     /**
@@ -28,10 +29,30 @@ class Expense extends Eloquent {
      *
      * @var array
      */
-    static $sortable = array(
+    public static $sortable = array(
         'amount',
         'merchant',
         'category',
         'created_at'
     );
+
+    /**
+     * Category
+     *
+     * @return Builder
+     */
+    public function category()
+    {
+        return $this->belongsTo('Category');
+    }
+
+    /**
+     * Merchant
+     *
+     * @return Builder
+     */
+    public function merchant()
+    {
+        return $this->belongsTo('Merchant');
+    }
 }

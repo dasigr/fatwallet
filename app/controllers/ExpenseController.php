@@ -41,7 +41,7 @@ class ExpenseController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		return Response::json($this->expense->find($id), 200);
 	}
 
 

@@ -11,8 +11,6 @@ class ExpenseControllerTest extends TestCase {
     {
         parent::setUp();
 
-        $this->repo = App::make('UserRepository');
-
         // Migrate and seed the test database.
         Artisan::call('migrate');
         $this->seed();
@@ -123,5 +121,23 @@ class ExpenseControllerTest extends TestCase {
         $data = json_decode($content);
 
         $this->assertEquals($expected_expenses, $data->expenses->data);
+    }
+
+    /**
+     * Test API call for retrieving an expense.
+     *
+     * @return void
+     */
+    public function testShowExpense()
+    {
+        $expense = Expense::with('category', 'merchant')->where('id', '=', 2)->first()->toArray();
+        $expected = json_encode(array(
+            'error' => false,
+            'expense' => $expense
+        ));
+
+        $response = $this->call('GET', 'v1/expenses/2');
+
+        $this->assertEquals($expected, $response->getContent());
     }
 }

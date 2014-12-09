@@ -1,6 +1,9 @@
 <?php
 
 use \ValidationException;
+use \Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExpenseRepository implements ExpenseRepositoryInterface {
 
@@ -45,7 +48,23 @@ class ExpenseRepository implements ExpenseRepositoryInterface {
 	 */
     public function find($id)
     {
+        if ( ! is_numeric($id)) {
+            throw new InvalidArgumentException;
+        }
 
+        $expense = Expense::with('category', 'merchant')->where('id', '=', $id)->first();
+
+        if ( ! ($expense instanceof Expense)) {
+            return array(
+                'error' => false,
+                'message' => 'Expense does not exist.'
+            );
+        }
+
+        return array(
+            'error' => false,
+            'expense' => $expense->toArray()
+        );
     }
 
     /**
