@@ -140,4 +140,27 @@ class ExpenseControllerTest extends TestCase {
 
         $this->assertEquals($expected, $response->getContent());
     }
+
+    /**
+     * Test API call for creating an expense.
+     *
+     * @return void
+     */
+    public function testStoreExpense()
+    {
+        $attributes = array(
+            'amount' => 432424,
+            'merchant_id' => 1,
+            'category_id' => 1,
+            'notes' => 'Lorem ipsum set amet.',
+            'attachment_id' => 1,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+
+        $response = $this->call('POST', 'v1/expenses', $attributes);
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('Expense has been created.', $data->message);
+    }
 }

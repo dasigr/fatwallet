@@ -70,12 +70,24 @@ class ExpenseRepository implements ExpenseRepositoryInterface {
     /**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  array $attributes
 	 * @return Response
 	 */
-    public function create($data)
+    public function create($attributes)
     {
+        $expense = Expense::create($attributes);
 
+        if ( ! ($expense instanceof Expense)) {
+            return array(
+                'error' => false,
+                'message' => 'Failed creating an expense.'
+            );
+        }
+
+        return array(
+            'error' => false,
+            'message' => 'Expense has been created.'
+        );
     }
 
     /**

@@ -243,4 +243,31 @@ class ExpenseRepositoryTest extends TestCase {
 
         $this->assertEquals($expense, $result['expense']);
     }
+
+    /**
+     * Test creating an expense.
+     *
+     * @return void
+     */
+    public function testCreateExpense()
+    {
+        $attributes = array(
+            'amount' => 424988,
+            'merchant_id' => 1,
+            'category_id' => 1,
+            'notes' => 'Lorem ipsum set amet.',
+            'attachment_id' => 1,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+
+        $this->expense->create($attributes);
+
+        $expense = Expense::where('amount', '=', $attributes['amount'])
+                            ->where('created_at', '=', $attributes['created_at'])
+                            ->first()->toArray();
+        unset($expense['id']);
+        unset($expense['updated_at']);
+
+        $this->assertEquals($attributes, $expense);
+    }
 }

@@ -29,7 +29,7 @@ class ExpenseController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		return Response::json($this->expense->create( Input::all() ), 200);
 	}
 
 
