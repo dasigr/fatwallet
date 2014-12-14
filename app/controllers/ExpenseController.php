@@ -1,6 +1,7 @@
 <?php
 
 use \ExpenseRepositoryInterface;
+use Illuminate\Support\Facades\Input;
 
 class ExpenseController extends \BaseController {
 
@@ -53,7 +54,7 @@ class ExpenseController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		return Response::json($this->expense->update($id, Input::all()), 200);
 	}
 
 

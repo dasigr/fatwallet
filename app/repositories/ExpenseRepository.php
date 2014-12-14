@@ -93,12 +93,34 @@ class ExpenseRepository implements ExpenseRepositoryInterface {
     /**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  int   $id
+	 * @param  array $attributes
 	 * @return Response
 	 */
-    public function update($id, $data)
+    public function update($id, $attributes)
     {
+        $this->validate($attributes);
 
+        try
+        {
+            $expense = Expense::find($id);
+            foreach ($attributes as $key => $value) {
+                $expense[$key] = $value;
+            }
+            $expense->save();
+
+            return array(
+                'error' => false,
+                'message' => 'Expense has been updated.'
+            );
+        }
+        catch (Exception $e)
+        {
+            return array(
+                'error' => true,
+                'message' => $e->getMessage()
+            );
+        }
     }
 
     /**
@@ -113,14 +135,32 @@ class ExpenseRepository implements ExpenseRepositoryInterface {
     }
 
     /**
-	 * Update the specified resource in storage.
+	 * Validate input data.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @throws ValidationException
+	 * @return bool
 	 */
-    public function validate($data, $id = null)
+    public function validate($data)
     {
+        // Create Expense validation rules
+        $rules = array(
+            'amount' => 'required|integer|min:0|max:9999999999999999',
+            'merchant_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'notes' => 'size:254',
+            'attachement_id' => 'integer',
+            'created_at' => 'required'
+    	);
 
+        // Do validation
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator, 401);
+        }
+
+        return true;
     }
 
     /**

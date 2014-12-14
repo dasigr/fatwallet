@@ -48,7 +48,7 @@ interface ExpenseRepositoryInterface {
 	 * @param  int  $id
 	 * @return Response
 	 */
-    public function validate($data, $id = null);
+    public function validate($data);
 
     /**
 	 * Create an instance.

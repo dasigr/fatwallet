@@ -1,11 +1,14 @@
 <?php
 
-class ValidationException extends \Exception {
-
+class ValidationException extends \Exception
+{
     /**
-     * @param Validator $validator failed validator object
+     * Constructor
+     *
+     * @param $validator Validator object
      */
-    public function __construct($validator, $code = 500) {
+    public function __construct($validator, $code = 500)
+    {
         $this->messages = $validator->messages();
         parent::__construct($this->messages, $code);
     }

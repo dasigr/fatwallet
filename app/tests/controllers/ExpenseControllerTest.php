@@ -163,4 +163,25 @@ class ExpenseControllerTest extends TestCase {
         $this->assertFalse($data->error);
         $this->assertEquals('Expense has been created.', $data->message);
     }
+
+    /**
+     * Test an API call for updating an expense.
+     *
+     * @return void
+     */
+    public function testUpdateExpense()
+    {
+        $attributes = array(
+            'amount' => 24344,
+            'merchant_id' => 1,
+            'category_id' => 1,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+
+        $response = $this->call('PUT', 'v1/expenses/1', $attributes);
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('Expense has been updated.', $data->message);
+    }
 }

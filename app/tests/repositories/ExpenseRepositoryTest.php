@@ -270,4 +270,44 @@ class ExpenseRepositoryTest extends TestCase {
 
         $this->assertEquals($attributes, $expense);
     }
+
+    /**
+     * Test updating an expense with empty fields.
+     *
+     * @expectedException ValidationException
+     * @return void
+     */
+    public function testUpdateExpenseWithEmptyFields()
+    {
+        $attributes = array(
+            'amount' => '',
+            'merchant_id' => '',
+            'category_id' => '',
+            'notes' => '',
+            'attachment_id' => '',
+            'created_at' => ''
+        );
+
+        $this->expense->update(1, $attributes);
+    }
+
+    /**
+     * Test updating an expense.
+     *
+     * @return void
+     */
+    public function testUpdateExpense()
+    {
+        $attributes = array(
+            'amount' => '23434',
+            'merchant_id' => 1,
+            'category_id' => 1,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+
+        $this->expense->update(1, $attributes);
+
+        $expense = Expense::find(1);
+        $this->assertEquals($attributes['amount'], $expense->amount);
+    }
 }
