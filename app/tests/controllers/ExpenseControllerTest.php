@@ -184,4 +184,18 @@ class ExpenseControllerTest extends TestCase {
         $this->assertFalse($data->error);
         $this->assertEquals('Expense has been updated.', $data->message);
     }
+
+    /**
+     * Test an API call for deleting an expense.
+     *
+     * @return void
+     */
+    public function testDeleteExpense()
+    {
+        $response = $this->call('DELETE', 'v1/expenses/1');
+        $data = json_decode($response->getContent());
+
+        $this->assertFalse($data->error);
+        $this->assertEquals('Expense has been deleted.', $data->message);
+    }
 }

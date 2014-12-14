@@ -310,4 +310,17 @@ class ExpenseRepositoryTest extends TestCase {
         $expense = Expense::find(1);
         $this->assertEquals($attributes['amount'], $expense->amount);
     }
+
+    /**
+     * Test deleting an expense.
+     *
+     * @return void
+     */
+    public function testDeleteExpense()
+    {
+        $this->expense->delete(1);
+
+        $expense = Expense::find(1);
+        $this->assertTrue($expense === null);
+    }
 }

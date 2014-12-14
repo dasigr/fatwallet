@@ -66,7 +66,7 @@ class ExpenseController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		return Response::json($this->expense->delete($id), 200);
 	}
 
 

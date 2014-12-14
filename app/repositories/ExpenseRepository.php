@@ -131,7 +131,23 @@ class ExpenseRepository implements ExpenseRepositoryInterface {
 	 */
     public function delete($id)
     {
+        try
+        {
+            $expense = Expense::find($id);
+            $expense->delete();
 
+            return array(
+                'error' => false,
+                'message' => 'Expense has been deleted.'
+            );
+        }
+        catch (Exception $e)
+        {
+            return array(
+                'error' => true,
+                'message' => $e->getMessage()
+            );
+        }
     }
 
     /**
