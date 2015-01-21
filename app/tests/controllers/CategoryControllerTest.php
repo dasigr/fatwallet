@@ -43,4 +43,28 @@ class CategoryControllerTest extends TestCase {
         $this->assertFalse($data->error);
         $this->assertInternalType('array', $data->categories);
     }
+
+    /**
+     * Test API call for fetching a category.
+     *
+     * @return void
+     */
+    public function testFetchCategory()
+    {
+        $response = $this->call('GET', 'v1/categories');
+        $data = json_decode($response->getContent());
+
+        $this->assertArrayHasKey('error', $data);
+        $this->assertArrayHasKey('category', $data);
+
+        $category = $data['category'];
+        $this->assertArrayHasKey('id', $category);
+        $this->assertArrayHasKey('name', $category);
+        $this->assertArrayHasKey('parent', $category);
+        $this->assertArrayHasKey('created_at', $category);
+        $this->assertArrayHasKey('updated_at', $category);
+        $this->assertArrayHasKey('deleted_at', $category);
+
+        $this->assertFalse($data->error);
+    }
 }
